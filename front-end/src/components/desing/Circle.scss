@@ -1,0 +1,11 @@
+.circle {
+  width: 2em;
+  height: 2em;
+  line-height: 2em;
+  -moz-border-radius: 50%;
+  border-radius: 50%;
+  border: solid 1px rgba(151, 140, 238, 0.75);
+  color: rgba(151, 140, 238, 0.75);
+  text-align: center;
+  display: block;
+}

@@ -1,0 +1,40 @@
+version: '3.7'
+
+services:
+  ts-node-docker:
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+      target: base
+    volumes:
+      - ./src:/home/node/app/src
+      - ./nodemon.json:/home/node/app/nodemon.json
+    container_name: ts-node-docker
+    env_file: .env
+    environment:
+      - MONGO_USERNAME=$MONGO_USERNAME
+      - MONGO_PASSWORD=$MONGO_PASSWORD
+      - MONGO_HOSTNAME=db
+      - MONGO_PORT=$MONGO_PORT
+      - MONGO_DB=$MONGO_DB
+    expose:
+      - '3000'
+    ports:
+      - '3000:3000'
+    command: npm run dev
+
+  mongodb_container:
+    image: mongo:latest
+    container_name: db
+    restart: unless-stopped
+    env_file: .env
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=$MONGO_USERNAME
+      - MONGO_INITDB_ROOT_PASSWORD=$MONGO_PASSWORD
+    ports:
+      - 27017:27017
+    volumes:
+      - mongodb_data_container:/data_/db
+
+volumes:
+  mongodb_data_container:
